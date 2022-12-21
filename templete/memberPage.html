@@ -1,0 +1,217 @@
+{% extends 'main.html' %}
+{% block title %}<title>Member</title>{% endblock title%}
+{% block content %}
+{% include 'navbar.html' %}
+
+{% comment %} {% for room in rooms %}
+{{room.host}}
+{{room.Cheque_No}}
+
+{% endfor %}
+{% for message in room_messages %}
+            <div>
+                
+                {% comment %} <a href="{% url 'delete-message' message.id %}">Delete</a>
+                <p>{{message.Address}}</p>
+                <p>{{message.Aadhar}}</p>
+                <hr>
+            </div>
+{% endfor %} {% endcomment %}
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <br>
+                <h2 class="heading-section">Hello,{{request.user.username}}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-wrap">
+                    <table class="table">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th>Name</th>
+                          <th>Address</th>
+                          <th>Aadhar</th>
+                          <th>Pan no.</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="alert" role="alert">
+                            {% for message in room_messages %}
+                          <td>{{message.user}}</td>
+                          <td>{{message.Address}}</td>
+                          <td>{{message.Aadhar}}</td>
+                          <td>{{message.Pan}}</td>
+                          {% endfor %}
+                       </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 
+<br>
+
+<style>
+    * {
+        margin: 0px;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    
+    }
+    
+    
+    .heading {
+        display: flex;
+        background-color: black;
+        box-shadow: 0px 1px 2px black;
+    }
+    h1 {
+        color: coral;
+        font-weight: bold;
+        
+        background: transparent;
+        padding: 7px;
+        
+    }
+    
+    
+    .outer-wrapper {
+        margin: 10px;
+        margin-left: 70px;
+        margin-right: 20px;
+        border: 1px solid black;
+        border-radius: 4px;
+        box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.9);
+        max-width: fit-content;
+        max-height: fit-content;
+    
+        
+    }
+    .table-wrapper {
+    
+        overflow-y: scroll;
+        overflow-x: scroll;
+        height: fit-content;
+        max-height: 66.4vh;
+        
+        margin-top: 22px;
+        
+        margin: 15px;
+        padding-bottom: 20px;
+        
+    }
+    
+    
+    table {
+        
+        min-width: max-content;
+        
+        border-collapse: separate;
+        border-spacing: 0px;    
+        
+    }
+    
+    
+    
+    table th{
+        position: sticky; 
+        top: 0px;
+        
+        background-color: black;
+        color: rgb(255, 255, 255);
+        
+        text-align: center;
+        font-weight: normal;
+        font-size: 18px;
+        outline: 0.7px solid black;
+        border: 1.5px solid black;
+    
+    } 
+    
+    
+    
+    table th, table td {
+        
+        padding: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        
+    }
+    
+    table td {
+        text-align: left;
+        
+        font-size: 15px;
+        border: 1px solid rgb(177, 177, 177);
+        padding-left: 20px;
+        
+    }
+    
+
+</style>
+
+<div class="outer-wrapper">
+    <div class="table-wrapper">
+    <table>
+        <thead>
+
+            <th>Ac no.</th>
+            <th>Phone</th>
+            {% comment %} <th>SM(Dr)</th> {% endcomment %}
+            <th>Date</th>
+            <th>Share Money</th>
+            <th>Late Charge</th>
+            <th>Balance</th>
+            <th>Loan</th>
+            <th>Loan Installment</th>
+            <th>Loan Interest</th>
+            <th>Late Loan Charge</th>
+            <th>Loan Balance</th>
+
+        </thead>
+        <tbody>
+                        {% comment %} host = models.ForeignKey(User, on_delete = models.CASCADE, null=True ) {% endcomment %}
+            {% comment %} S_no = models.IntegerField(null=True, blank=True) {% endcomment %}
+            {% comment %} Name = models.CharField(max_length=400, null= True)
+            Ac_No = models.IntegerField(null = True , blank=True)
+            Phone = models.IntegerField(null = True , blank=True)
+            Month = models.DateField(null = True , blank=True)
+            Share_Money = models.IntegerField(null = True , blank=True)
+            Late_Charge = models.IntegerField(null = True , blank=True)
+            Balance = models.IntegerField(null = True , blank=True)
+            Loan = models.IntegerField(null = True , blank=True)
+            Loan_Installment = models.IntegerField(null = True , blank=True)
+            Loan_Interest = models.IntegerField(null = True , blank=True)
+            Late_Loan_Charge = models.IntegerField(null = True , blank=True)
+            Loan_Balance =  {% endcomment %}
+            {% for room in rooms %}
+            <tr>
+               
+                <td>{{room.Ac_No}}</td>
+                <td>{{room.Phone}}</td>
+                {% comment %} <td>{{room.SM_Dr}}</td> {% endcomment %}
+                <td>{{room.Month}}</td>
+                <td>{{room.Share_Money}}</td>
+                <td>{{room.Late_Charge}}</td>
+                <td>{{room.Balance}}</td>
+                <td>{{room.Loan}}</td>
+                <td>{{room.Loan_Installment}}</td>
+                <td>{{room.Loan_Interest}}</td>
+                <td>{{room.Late_Loan_Charge}}</td>
+                <td>{{room.Loan_Balance}}</td>
+               
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+
+
+
+
+
+{% endblock %}
