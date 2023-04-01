@@ -40,11 +40,15 @@ class Payment(models.Model):
 
 
 class userdetails(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     # first_pay = models.ForeignKey(Payment, on_delete=models.CASCADE) #SET_NULL to save the messages of the room\
+    Name = models.CharField(max_length=100, null=True, blank=True)
     Address = models.TextField()
     Aadhar = models.IntegerField(null = True , blank=True)
     Pan = models.IntegerField(null = True , blank=True)
+    Bank_Name = models.IntegerField(null=True, blank=True)
+    Account_number = models.IntegerField(null = True, blank = True)
+    IFSC = models.IntegerField(null = True, blank = True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
