@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 class Payment(models.Model):
     host = models.ForeignKey(User, on_delete = models.CASCADE, null=True )
     S_no = models.IntegerField(null=True, blank=True)
-    Name = models.CharField(max_length=400, null= True)
+    Name = models.CharField(max_length=400, null= True,blank=True)
     # share_money = models.IntegerField(null = True , blank=True)
     Ac_No = models.IntegerField(null = True , blank=True)
     Phone = models.IntegerField(null = True , blank=True)
@@ -43,14 +43,17 @@ class userdetails(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     # first_pay = models.ForeignKey(Payment, on_delete=models.CASCADE) #SET_NULL to save the messages of the room\
     Name = models.CharField(max_length=100, null=True, blank=True)
-    Address = models.TextField()
+    Membership_number = models.IntegerField(null=True)
+    Address = models.TextField(null=True, blank=True)
+    phone_number = models.IntegerField(null= True)
     Aadhar = models.IntegerField(null = True , blank=True)
     Pan = models.IntegerField(null = True , blank=True)
-    Bank_Name = models.IntegerField(null=True, blank=True)
+    Bank_Name = models.CharField(max_length=400, null= True)
     Account_number = models.IntegerField(null = True, blank = True)
-    IFSC = models.IntegerField(null = True, blank = True)
+    IFSC = models.CharField(max_length=400, null= True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+    Reference = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='Reference')
 
     class Meta:
         ordering = ['-updated', '-created']
