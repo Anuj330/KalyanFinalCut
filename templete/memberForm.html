@@ -1,0 +1,15 @@
+<h1>Member form page</h1>
+
+<form action = "#" method= "POST">
+    {% csrf_token %}
+    <p><label for="id_S_no">S no:</label></th><td><input type="number" name="S_no" value="0" id="id_S_no"></p>
+    <p><label for="id_Name">Name:</label></th><td><input type="text" name="Name" maxlength="400" id="id_Name"></p>
+    <p><label for="id_Phone">Phone:</label></th><td><input type="number" name="Phone" value="0" id="id_Phone"></p>
+    <p><label for="id_Ac_No">Ac No:</label></th><td><input type="number" name="Ac_No" value="0" id="id_Ac_No"></p>
+    <p><label for="id_Month">Month:</label></th><td><input type = "hidden" name="Month" value={{date}} id="id_Month"></p>
+    <p><label for="id_Share_Money">Share Money:</label></th><td><input type="number" name="Share_Money" value="0" id="id_Share_Money"></p>
+    <p><label for="id_Late_Charge">Late Charge:</label></th><td><input type="number" name="Late_Charge" value="0" id="id_Late_Charge"></p>
+    <p><label for="id_Balance">Balance:</label></th><td><input type="number" name="Balance" value="0" id="id_Balance"></p>
+
+    <input type = "submit" value = "Submit">
+</form>

@@ -1,0 +1,91 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}<title>Admin</title>{% endblock title%}
+{% block content %}
+<div class="nav-bar">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex flex-wrap justify-content-between align-items-center">
+                <div class="site-branding d-flex align-items-center">
+                    <a class="d-block" href="index.html" rel="home"><img class="d-block" src="{% static 'images/logo.png' %}" width="140" height="70"  stylalt="logo"></a>
+                </div><!-- .site-branding -->
+
+                <nav class="site-navigation d-flex justify-content-end align-items-center">
+                    <ul class="d-flex flex-column flex-lg-row justify-content-lg-end align-content-center">
+                        <li class="current-menu-item"><a href="{% url 'home' %}">User Details</a></li>
+                        {% comment %} <li><a href="{% url '#' %}">payments Details</a></li> {% endcomment %}
+                        <li><a href="{% url 'causes' %}">Loan</a></li>
+                        <li><input type="text" placeholder="Search.."></li>
+
+                        {% if request.user.is_authenticated %}
+                        <li><a href = "{% url 'logout' %}">logout</a></li>
+                        {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </nav><!-- .site-navigation -->
+                <div class="hamburger-menu d-lg-none">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div><!-- .hamburger-menu -->
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .nav-bar -->
+
+<br>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-wrap">
+                    <table class="table">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th>Membership_number</th>
+                          <th>username</th>
+                          <th>Name</th>
+                          {% comment %} <th>Address</th> {% endcomment %}
+                          <th>Aadhar</th>
+                          {% comment %} <th>Pan no.</th> {% endcomment %}
+                          <th>Phone</th>
+                          <th>refrence</th>
+                          
+                          {% comment %} <th>Account No.</th> {% endcomment %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                        {% for i in room_messages %}
+                        <tr>
+                        {% comment %} <tr> {% endcomment %}
+                            <td>{{i.Membership_number}}</td>
+                            <td>{{i.user}}</td>
+                            <td>{{i.Name}}</td>
+                            {% comment %} <td>{{i.Address}}</td> {% endcomment %}
+                            <td>{{i.Aadhar}}</td>
+                            {% comment %} <td>{{i.Pan}}</td> {% endcomment %}
+                            <td>{{i.phone_number}}</td>
+                            <td>{{i.Reference}}</td>
+                            
+                            
+                           
+                        </tr>
+                        {% endfor %}
+            
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 
+<br> 
+
+
+
+{% endblock %}

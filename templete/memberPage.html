@@ -1,28 +1,17 @@
 {% extends 'main.html' %}
+{% load static %}
 {% block title %}<title>Member</title>{% endblock title%}
 {% block content %}
 {% include 'navbar.html' %}
 
-{% comment %} {% for room in rooms %}
-{{room.host}}
-{{room.Cheque_No}}
-
-{% endfor %}
-{% for message in room_messages %}
-            <div>
-                
-                {% comment %} <a href="{% url 'delete-message' message.id %}">Delete</a>
-                <p>{{message.Address}}</p>
-                <p>{{message.Aadhar}}</p>
-                <hr>
-            </div>
-{% endfor %} {% endcomment %}
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 text-center mb-5">
                 <br>
-                <h2 class="heading-section">Hello,{{request.user.username}}</h2>
+                {% for i in room_messages %}
+                <h2 class="heading-section">Hello, {{i.Name}}</h2>
+                {% endfor %}
             </div>
         </div>
         <div class="row">
@@ -31,24 +20,34 @@
                     <table class="table">
                       <thead class="thead-dark">
                         <tr>
+                          <th>Account No.</th>
                           <th>Name</th>
+                          <th>Phone</th>
                           <th>Address</th>
                           <th>Aadhar</th>
                           <th>Pan no.</th>
+                          
+                          
                         </tr>
                       </thead>
                       <tbody>
                         <tr class="alert" role="alert">
                         {% for message in room_messages %}
-                          <td>{{message.user}}</td>
+                        <td>{{message.Membership_number}}</td>
+                          <td>{{message.Name}}</td>
+                          <td>{{message.phone_number}}</td>
                           <td>{{message.Address}}</td>
                           <td>{{message.Aadhar}}</td>
                           <td>{{message.Pan}}</td>
+                          
                           {% endfor %}
                        </tbody>
                     </table>
                 </div>
             </div>
+        </div>
+        <div>
+            <a href="{% url 'editUser' %}" class="button" style="color:black;" id="button">UPDATE YOUR DETAILS</a>
         </div>
     </div>
 </section> 
@@ -158,8 +157,8 @@
     <table>
         <thead>
 
-            <th>Ac no.</th>
-            <th>Phone</th>
+            {% comment %} <th>Account No.</th> {% endcomment %}
+            {% comment %} <th>Phone</th> {% endcomment %}
             {% comment %} <th>SM(Dr)</th> {% endcomment %}
             <th>Date</th>
             <th>Share Money</th>
@@ -173,26 +172,11 @@
 
         </thead>
         <tbody>
-                        {% comment %} host = models.ForeignKey(User, on_delete = models.CASCADE, null=True ) {% endcomment %}
-            {% comment %} S_no = models.IntegerField(null=True, blank=True) {% endcomment %}
-            {% comment %} Name = models.CharField(max_length=400, null= True)
-            Ac_No = models.IntegerField(null = True , blank=True)
-            Phone = models.IntegerField(null = True , blank=True)
-            Month = models.DateField(null = True , blank=True)
-            Share_Money = models.IntegerField(null = True , blank=True)
-            Late_Charge = models.IntegerField(null = True , blank=True)
-            Balance = models.IntegerField(null = True , blank=True)
-            Loan = models.IntegerField(null = True , blank=True)
-            Loan_Installment = models.IntegerField(null = True , blank=True)
-            Loan_Interest = models.IntegerField(null = True , blank=True)
-            Late_Loan_Charge = models.IntegerField(null = True , blank=True)
-            Loan_Balance =  {% endcomment %}
+                        
             {% for room in rooms %}
             <tr>
-               
-                <td>{{room.Ac_No}}</td>
-                <td>{{room.Phone}}</td>
-                {% comment %} <td>{{room.SM_Dr}}</td> {% endcomment %}
+            {% comment %} <tr> {% endcomment %}
+           
                 <td>{{room.Month}}</td>
                 <td>{{room.Share_Money}}</td>
                 <td>{{room.Late_Charge}}</td>
@@ -202,16 +186,70 @@
                 <td>{{room.Loan_Interest}}</td>
                 <td>{{room.Late_Loan_Charge}}</td>
                 <td>{{room.Loan_Balance}}</td>
+                
                
             </tr>
             {% endfor %}
+
         </tbody>
     </table>
+    
 </div>
+
 </div>
 
+<br>
+<div class="outer-wrapper">
+    <a href="{% url 'memberForm' %}" class="button" id="button">button</a>
+</div> 
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Rubik:500');
+
+.button {
+  padding: 16px 42px;
+  box-shadow: 0px 0px 12px -2px rgba(0,0,0,0.5);
+  line-height: 1.25;
+  background: #FC6E51;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  position: relative;
+  transition: background-color .6s ease;
+  overflow: hidden;
+  &:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: 50%;
+    top: var(--mouse-y);
+    left: var(--mouse-x);
+    transform-style: flat;
+    transform: translate3d(-50%,-50%,0);
+    background: rgba(white,.1);
+    border-radius: 100%;
+    transition: width .3s ease, height .3s ease;
+  }
+  &:focus,
+  &:hover {
+      background: darken(#FC6E51,7%);
+  }
+  &:active {
+    &:after {
+      width: 300px;
+      height: 300px;
+    }
+  }
+}
+</style>
 
 
+
+
+{% include 'footer.html' %}
 
 
 {% endblock %}

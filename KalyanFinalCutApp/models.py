@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import datetime, timedelta
+from .choices import GENDER_TYPE_CHOICE
 
 # Create your models here.
 
@@ -11,49 +12,54 @@ from datetime import datetime, timedelta
 
 class Payment(models.Model):
     host = models.ForeignKey(User, on_delete = models.CASCADE, null=True )
-    S_no = models.IntegerField(null=True, blank=True)
     Name = models.CharField(max_length=400, null= True,blank=True)
     # share_money = models.IntegerField(null = True , blank=True)
-    Ac_No = models.IntegerField(null = True , blank=True)
-    Phone = models.IntegerField(null = True , blank=True)
-    Month = models.DateField(null = True , blank=True)
-    Share_Money = models.IntegerField(null = True , blank=True)
-    Late_Charge = models.IntegerField(null = True , blank=True)
-    Balance = models.IntegerField(null = True , blank=True)
-    Loan = models.IntegerField(null = True , blank=True)
-    Loan_Installment = models.IntegerField(null = True , blank=True)
-    Loan_Interest = models.IntegerField(null = True , blank=True)
-    Late_Loan_Charge = models.IntegerField(null = True , blank=True)
-    Loan_Balance = models.IntegerField(null = True , blank=True)
-    # Date = models
-    # last_date = models.DateField(default=get_expiry)
-    # updated = models.DateTimeField(auto_now=True, null = True)
-    # created = models.DateField()
-    # class Meta:
-    #     ordering = ['-updated', '-created']
+    Ac_No = models.IntegerField(null = True , blank=True, default= 0)
+    Phone = models.IntegerField(null = True , blank=True, default= 0)
+    Month = models.DateField(null = True, blank=True)
+    Share_Money = models.IntegerField(null = True , blank=True, default=0)
+    Late_Charge = models.IntegerField(null = True , blank=True, default=0)
+    Balance = models.IntegerField(null = True , blank=True, default= 0)
+    Loan = models.IntegerField(null = True , blank=True, default=0)
+    Loan_Installment = models.IntegerField(null = True , blank=True, default=0)
+    Loan_Interest = models.IntegerField(null = True , blank=True, default=0)
+    Late_Loan_Charge = models.IntegerField(null = True , blank=True, default= 0)
+    Loan_Balance = models.IntegerField(null = True , blank=True, default= 0)
+    # Date = models.DateField(null = True, blank=True)
 
-
-    # late_fee_share_money = models.IntegerField(default=late_free_share)
      
     def __str__(self):
         return str(self.host) +'['+str(self.Month)+']' + '['+str(self.Name)+']'
 
 
+# def get_expiry():
+#     return datetime.today() + timedelta(days=30)  
+
 class userdetails(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     # first_pay = models.ForeignKey(Payment, on_delete=models.CASCADE) #SET_NULL to save the messages of the room\
-    Name = models.CharField(max_length=100, null=True, blank=True)
-    Membership_number = models.IntegerField(null=True)
+    Name = models.CharField(max_length=100, null=True, blank=True,)
+    Date_of_birth = models.DateField(null = True, blank=True)
+    gender = models.PositiveBigIntegerField(choices=GENDER_TYPE_CHOICE)
+    Membership_number = models.IntegerField(null=True, blank=True)
     Address = models.TextField(null=True, blank=True)
-    phone_number = models.IntegerField(null= True)
-    Aadhar = models.IntegerField(null = True , blank=True)
+    Email = models.EmailField(null=True, blank=True)
+    phone_number = models.TextField(null=True, blank=True)
+    Aadhar = models.TextField(null=True, blank=True)
     Pan = models.IntegerField(null = True , blank=True)
-    Bank_Name = models.CharField(max_length=400, null= True)
+    Bank_Name = models.CharField(max_length=400, null= True, blank=True)
     Account_number = models.IntegerField(null = True, blank = True)
-    IFSC = models.CharField(max_length=400, null= True)
+    IFSC = models.CharField(max_length=400, null= True, blank = True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    Reference = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='Reference')
+    Reference = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='Reference', blank = True)
+    nominee1 = models.CharField(max_length=100, null=True, blank=True)
+    Date_of_birth_nominee1 = models.DateField(null = True, blank=True)
+    relation_with_nominee1 = models.CharField(max_length=100, null=True, blank=True)
+    nominee2 = models.CharField(max_length=100, null=True, blank=True)
+    Date_of_birth_nominee2 = models.DateField(null = True, blank=True)
+    relation_with_nominee2 = models.CharField(max_length=100, null=True, blank=True)
+    
 
     class Meta:
         ordering = ['-updated', '-created']
