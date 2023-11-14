@@ -5,189 +5,216 @@
 {% block content %}
 {% include 'navbar.html' %}
 
-    <div class="page-header">
+<!DOCTYPE html>
+<html>
+<br>
+<head>
+    <br>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+
+        .polaroid {
+            width: 80%;
+            background-color: white;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            margin: 25px;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            height: 50%;
+            display: flex;
+        }
+
+        .container {
+            padding: 10px 20px;
+        }
+
+        .polaroid img {
+            max-width: 100%; 
+            height: auto;
+            height: auto;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(1).png' %}" alt="Image 1">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h1>Portfolio</h1>
-                </div><!-- .col -->
-            </div><!-- .row -->
-        </div><!-- .container -->
-    </div><!-- .page-header -->
-
-    <div class="portfolio-wrap">
-        <div class="container">
-            <div class="row portfolio-container">
-                <div class="col-12 col-md-6 col-lg-4 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="{% static 'diwali/diwali.png' %}" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Gifts for the Community</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-3 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="{% static 'diwali/diwali1.png' %}" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Gifts for the Community</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-5 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="{% static 'diwali/diwali2.png' %}" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Gifts for the Community</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-5 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="{% static 'diwali/diwali2.png' %}g" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Gifts for the Community</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-3 mt-48 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="{% static 'diwali/diwali4.png' %}" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Gifts for the Community</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-4 mt-48 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="{% static 'diwali/diwali5.png' %}" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Gifts for the Community</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-3 mt-72 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="{% static 'diwali/diwali6.png' %}" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Gifts for the Community</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div>
-
-                {% comment %} <div class="col-12 col-md-6 col-lg-6 mt-72 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="{% static 'diwali/diwali.png' %}" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Water for Children AI</a>D</h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div> {% endcomment %}
-
-                {% comment %} <div class="col-12 col-md-6 col-lg-3 mt-72 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="{% static 'diwali/diwali.png' %}" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Toys for Children Campaign</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div> {% endcomment %}
-{% comment %} 
-                <div class="col-12 col-md-6 col-lg-4 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="images/a.jpg" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Toys for Children Campaign</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div> {% endcomment %}
-
-                {% comment %} <div class="col-12 col-md-6 col-lg-3 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="images/b.jpg" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Toys for Children Campaign</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div> {% endcomment %}
-
-                {% comment %} <div class="col-12 col-md-6 col-lg-5 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="images/c.jpg" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Water for Children AID</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div> {% endcomment %}
-
-                {% comment %} <div class="col-12 col-md-6 col-lg-5 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="images/d.jpg" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Water for Children AID</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div> {% endcomment %}
-
-                {% comment %} <div class="col-12 col-md-6 col-lg-3 mt-48 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="images/e.jpg" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Toys for Children Campaign</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div> {% endcomment %}
-
-                {% comment %} <div class="col-12 col-md-6 col-lg-4 mt-48 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="images/f.jpg" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Toys for Children Campaign</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div> {% endcomment %}
-
-                {% comment %} <div class="col-12 col-md-6 col-lg-3 mt-72 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="images/g.jpg" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Toys for Children Campaign</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div> {% endcomment %}
-{% comment %} 
-                <div class="col-12 col-md-6 col-lg-6 mt-72 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="images/h.jpg" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Water for Children AI</a>D</h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div> {% endcomment %}
-
-                {% comment %} <div class="col-12 col-md-6 col-lg-3 mt-72 portfolio-item">
-                    <div class="portfolio-cont">
-                        <a href="#"><img src="images/i.jpg" alt=""></a>
-
-                        <h3 class="entry-title"><a href="#">Toys for Children Campaign</a></h3>
-                        <h4>2018 Causes</h4>
-                    </div>
-                </div> {% endcomment %}
-            </div>
-
-            <div class="row">
-                {% comment %} <div class="col-12 d-flex justify-content-center mt-72">
-                    <a href="#" class="btn gradient-bg load-more-btn">Load More</a>
-                </div> {% endcomment %}
-            </div>
+            <p>Diwali Milan Samaroh 2023</p>
         </div>
     </div>
 
-    {% include 'footer.html' %}
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(2).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(3).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(4).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(5).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(6).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(7).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(8).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(9).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(10).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(11).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(12).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(13).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(14).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(15).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023.png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2023(1).png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2023</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali.png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2022    </p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali1.png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2022</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali2.png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2022</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali3.png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2022</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali4.png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2022</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali5.png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2022</p>
+        </div>
+    </div>
+
+    <div class="polaroid">
+        <img src="{% static 'diwali/diwali6.png' %}" alt="Image 2">
+        <div class="container">
+            <p>Diwali Milan Samaroh 2022</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+{% include 'footer.html' %}
 {% endblock content %}

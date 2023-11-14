@@ -1,0 +1,41 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+<br><br>
+
+<div class="highlighted-cause">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-7 order-2 order-lg-1">
+                <div class="section-heading">
+                    <h2 class="entry-title"><a href = "{% url 'memberForm' %}">Click Here For New Entry</h2>
+                    <br><br>
+                    <h2 class="entry-title"><a href = "{% url 'table' %}">Members Details</h2>
+                    <br><br>
+                    <h2 class="entry-title">To Add Another Member</h2>
+                    <br><br>
+                    <h2 class="entry-title"><a href = "{% url 'location' %}">Search by location</h2>
+                    <br><br>
+                    <h2 class="entry-title">Search by Reference</h2>
+                    <br><br>
+                </div><!-- .section-heading -->
+
+
+        <div class="entry-footer mt-5">
+                    {% comment %} <a href="#" class="btn gradient-bg">Donate Now</a> {% endcomment %}
+                </div><!-- .entry-footer -->
+            </div><!-- .col --> 
+            <div class="col-12 col-lg-5 order-1 order-lg-2">
+                {% comment %} <img src="{% static 'images/loan.jpg' %}" alt=""  width="500" height="600"> {% endcomment %}
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .highlighted-cause -->
+
+{% include "footer.html" %}
+
+{% endblock %}
+

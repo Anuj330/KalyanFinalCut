@@ -1,0 +1,35 @@
+<h1>pay</h1>
+
+
+<script>
+const options = {
+    method: 'POST',
+    headers: {accept: 'application/json', 'Content-Type': 'application/json'}
+  };
+  
+  fetch('https://api-preprod.phonepe.com/apis/merchant-simulator/pg/v1/pay', options)
+    .then(response => response.json())
+    .then(response => console.log(response))
+    .catch(err => console.error(err));
+
+
+    {
+        "success": true,
+        "code": "PAYMENT_INITIATED",
+        "message": "Payment Iniiated",
+        "data": {
+          "merchantId": "MERCHANTUAT",
+          "merchantTransactionId": "MT7850590068188104",
+          "instrumentResponse": {
+              "type": "PAY_PAGE",
+                  "redirectInfo": {
+                  "url": "https://mercury-uat.phonepe.com/transact?token=MjdkNmQ0NjM2MTk5ZTlmNDcxYjY3NTAxNTY5MDFhZDk2ZjFjMDY0YTRiN2VhMjgzNjIwMjBmNzUwN2JiNTkxOWUwNDVkMTM2YTllOTpkNzNkNmM2NWQ2MWNiZjVhM2MwOWMzODU0ZGEzMDczNA",
+              "method": "GET"
+            }
+          }
+        }
+      }
+      let expectedKey = createHmac("sha256", clientSecret).update(plainText).digest("hex");
+
+      c5ca058dcd751b1770665c8a7b85efe8d31d1e430d74f9a1f2f1b5ae9d4c6747/pg/v1/pay099eb0cd-02cf-4e2a-8aca-3e6c6aff0399###1
+</script>

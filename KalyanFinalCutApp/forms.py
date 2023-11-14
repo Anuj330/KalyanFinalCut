@@ -6,7 +6,7 @@ class userdettailsForm(ModelForm):
     
     class Meta:
         model = userdetails
-        fields = ['Name', 'Date_of_birth', 'gender', 'Address' ,'Email', 'phone_number', 'Bank_Name', 'Account_number', 'IFSC', 'nominee1', 'nominee2'] 
+        fields = ['user','Name', 'Date_of_birth', 'gender', 'Address' ,'Email', 'phone_number', 'Bank_Name', 'Account_number', 'IFSC', 'nominee1', 'nominee2'] 
 
 
 class PaymentdetailsForm(ModelForm):

@@ -1,15 +1,19 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib import admin
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from .models import userdetails, Payment
 from django.contrib.auth.forms import UserCreationForm
 from datetime import datetime
 from .forms import PaymentdetailsForm, userdettailsForm
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import random
 from django.views.decorators.csrf import csrf_exempt
 from paytm import Checksum
+from twilio.rest import Client
+from . import keys
 
 # Create your views here.
 
@@ -31,7 +35,9 @@ def causes(request):
 def portfolio(request):
     return render(request, 'portfolio.html')
 
+
 def loginPage(request):
+    page = 'login'
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -44,8 +50,33 @@ def loginPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect('memberPage')        
-    return render(request, 'login.html' )
+            return redirect('memberPage')
+        else:
+            messages.error(request, "username or password wrong!!!")  
+
+    context = {'page' : page}      
+    return render(request, 'login.html', context)
+
+def Adminlogin(request):
+    page = 'Adminlogin'
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        try:
+            user = User.objects.get(username = username)
+        except:
+            messages.error(request,'user not found')
+        
+        user = authenticate(request, username = username, password = password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('adminPage')
+        else:
+            messages.error(request, "username or password wrong!!!")  
+
+    context = {'page' : page}      
+    return render(request, 'login.html', context)
 
 def contact(request):
     return render(request, 'contact.html')
@@ -58,83 +89,97 @@ def MemberPage(request):
     for i in room_messages:
         membership_no = i.Membership_number
         print(membership_no)
-    # return membership_no
     context = {"user" : user , "rooms" : rooms, 'room_messages' : room_messages}
     return render(request,'memberPage.html' , context)
 
 def MemberForm(request):
-    form  = PaymentdetailsForm()
-    
+    global balance
+    balance = 0
+    form  = PaymentdetailsForm(request.POST or None)
+
     date = datetime.now()
     print(date)
     print(request.user)
-    context = {'form': form, 'date': date}
+    
+    users = User.objects.all()
     if request.method == "POST":
-        host = request.user
-        Name = request.POST.get('Name', '')
-        Phone = request.POST.get('Phone', '')
-        Ac_No = request.POST.get('Ac_No', '')
+        host_id = request.POST['host_id']
+        try:
+            host = User.objects.get(id=host_id)  # Fetch the selected host user
+            
+        except User.DoesNotExist:
+            return redirect('invalid_host')
         Month = request.POST.get('Month', '') 
         Share_Money = request.POST.get('Share_Money', '')
         Late_Charge = request.POST.get('Late_Charge', '')
-        Balance = request.POST.get('Balance', '')
-        Payments = Payment(host = host, Name=Name, Phone=Phone, Ac_No=Ac_No, Month=Month, Share_Money=Share_Money, Late_Charge=Late_Charge, Balance=Balance)
+        rooms = host.payment_set.all()
+
+        for i in rooms: 
+            balance += i.Share_Money 
+        Balance = balance
+        Payments = Payment.objects.create(host = host, Month = Month, Share_Money=Share_Money, Late_Charge=Late_Charge, Balance=Balance)
         payment_id = Payments.id 
-        if payment_id == None:
+        if payment_id == None:  
             random_id = random.randint(1, 10000000000000)
             payment_id = random_id
         print(payment_id)
         Payments.save()
-        param_dict={
+        Late_Charge_balance = 0
+        for i in rooms:
+            Late_Charge_balance += i.Late_Charge
+        print(f'late charge is {Late_Charge_balance}')
 
-            'MID': 'nzUJdA10034995022680',
-            'ORDER_ID': str(payment_id),
-            'TXN_AMOUNT': str(Share_Money),
-            'CUST_ID': 'email',
-            'INDUSTRY_TYPE_ID': 'Retail',
-            'WEBSITE': 'WEBSTAGING',
-            'CHANNEL_ID': 'WEB',
-            'CALLBACK_URL':'http://127.0.0.1:8000/handlerequest/',
-        }
-        return  render(request, 'paytm.html', {'param_dict': param_dict})
-    # return redirect('memberPage')
+
+
+    context = {'users' : users, 'form': form, 'date': date}
     return render(request, "memberForm.html", context)
 
-@csrf_exempt
-def handlerequest(request):
-    # paytm will send you post request here
-    # form = request.POST
-    # response_dict = {}
-    # for i in form.keys():
-    #     response_dict[i] = form[i]
-    #     if i == 'CHECKSUMHASH':
-    #         checksum = form[i]
 
-    # verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
-    # if verify:
-    #     if response_dict['RESPCODE'] == '01':
-    #         print('order successful')
-    #     else:
-    #         print('order was not successful because' + response_dict['RESPMSG'])
-    # return render(request, 'paymentstatus.html', {'response': response_dict})
-    return HttpResponse("done")
+
+def get_user_details(request):
+    if request.is_ajax() and request.method == 'GET':
+        user_id = request.GET.get('user_id')
+        user_details = get_object_or_404(userdetails, user_id=user_id)
+        
+        data = {
+            'Name': user_details.Name,
+            'phone_number': user_details.phone_number,
+            'balance' : balance,
+            # Add more fields here
+        }
+        
+        return JsonResponse(data)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+
+def moreDetails(request, id):
+    # user = User.objects.get(id = id)
+    # room_messages = user.userdetails_set.all()
+    room_messages = get_object_or_404(userdetails, id = id)
+    context = {'room_messages' : room_messages}
+
+    return render(request,'moreDetails.html', context)
 
 def editDetails(request):
-    forms = userdettailsForm()
+    form = userdettailsForm()
     print(userdettailsForm())
+    context = {'form': form}
     if request.method == 'POST':
-        Name = request.user
-    return render(request, 'edit_user_details.html')
+        user = request.user
+        user = form.save(commit=False)
+        user.save()
+            
+        return redirect("memberPage")
+    else:
+        messages.error(request, "something went wrong")
+    
+    return render(request,'edit_user_details.html', context)
 
+# @login_required(login_url= 'Adminlogin')
 def adminPage(request):
     users = User.objects.all()
     print(users)
     room_messages = userdetails.objects.all()
-    # for i in room_messages:
-    #     print(i.Name)
-    # Payments = Payment.objects.all()
-    # for i in Payments:
-    #     print(i)
     context = {'room_messages' : room_messages }
     return render(request,'Admin.html', context ) 
 
@@ -143,20 +188,49 @@ def logoutUser(request):
     return redirect('home')
 
 def registerPage(request):
-    form = UserCreationForm()
-    
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False) #this will save the user in a flash so u will be able to user it right away
-            user.username = user.username.lower()
+            form.save() #this will save the user in a flash so u will be able to use it right away
+            username = form.cleaned_data['username'].lower()
+            password = form.cleaned_data['password1']
+            user = authenticate(username = username , password = password)
             user.save()
+            messages.success(request, "sucess!!!")
             login(request, user)
-            return redirect('home')
         else:
             messages.error(request, "something went wrong")
+    else:
+        form = UserCreationForm()
     
     context = {'form': form}
-    return render(request,'registration.html', context)
+    return render(request,'reg2.html', context)    
+
+def anujpage(request):
+    return render(request, "anuj.html")
+
+def location(request):
+    rooms = userdetails.objects.all()
+    context = {'rooms' : rooms}
+    return render(request, "location.html", context)
 
 
+def pay(request):
+    return render(request, 'payment.html') 
+
+def refer(request):
+    rooms = userdetails.objects.all()
+    context = {'rooms' : rooms}
+    return render(request, 'table.html', context)
+
+def sendMessage(request):
+    # pass
+    client = Client(keys.Acoount_SID, keys.Auth_key)
+
+    message = client.messages.create(
+        from_= keys.twilio_nunmber,
+        to=keys.my_phone_number,
+        body="Dear Member, your latest txn corresponding this account 3,004,887,558 is Txn:200.0,fine:0.0,bal:1400.0 .TEAM LAXMI"
+        )
+
+    print(message.body)

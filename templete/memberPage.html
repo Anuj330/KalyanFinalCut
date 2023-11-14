@@ -47,7 +47,7 @@
             </div>
         </div>
         <div>
-            <a href="{% url 'editUser' %}" class="button" style="color:black;" id="button">UPDATE YOUR DETAILS</a>
+            <a href="{% url 'editUser' %}" class="button" style="color:black;" id="button">UPDATE YOUR DETAILS</a> 
         </div>
     </div>
 </section> 
@@ -193,6 +193,8 @@
 
         </tbody>
     </table>
+
+    
     
 </div>
 
@@ -200,8 +202,37 @@
 
 <br>
 <div class="outer-wrapper">
-    <a href="{% url 'memberForm' %}" class="button" id="button">button</a>
+    {% comment %} <a href="{% url 'memberForm' %}" class="button" id="button">button</a> {% endcomment %}
 </div> 
+<div class="container">
+    <label for="vol">Balance:</label>
+    <span class="number" > 0 </span>
+    <input type="range" value="0" min="0" max = "10000">
+    <label for="vol">Eligible loan :</label>
+    <span class="loan" > 0 </span>
+    <style>
+        input[type="range"]{
+            width:500px;
+        }
+    </style>
+    <script>
+        const input = document.querySelector("input")
+        const number = document.querySelector(".number")
+        const loan = document.querySelector(".loan")
+
+        input.addEventListener("input", () =>{
+            number.textContent = input.value;
+            let amount = input.value
+            console.log(amount)
+            const percentage = 30;
+            const baseAmount = amount;
+            const fullAmount = (amount*100)/30
+            console.log(fullAmount);
+            loan.textContent = fullAmount; 
+        });
+
+    </script>
+</div>
 <style>
     @import url('https://fonts.googleapis.com/css?family=Rubik:500');
 
@@ -249,6 +280,7 @@
 
 
 
+<br>
 {% include 'footer.html' %}
 
 

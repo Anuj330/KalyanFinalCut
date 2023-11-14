@@ -2,47 +2,6 @@
 
 <form action = "#" method= "POST">
     {% csrf_token %}
-    <tr><th><label for="id_Name">Name:</label></th><td><input type="text" name="Name" maxlength="100" id="id_Name"></td></tr>
-<tr><th><label for="id_Date_of_birth">Date of birth:</label></th><td><input type="text" name="Date_of_birth" id="id_Date_of_birth"></td></tr>
-<tr><th><label for="id_gender">Gender:</label></th><td><select name="gender" required id="id_gender">       
-  <option value="" selected>---------</option>
-
-  <option value="1">male</option>
-
-  <option value="2">female</option>
-
-</select></td></tr>
-<tr><th><label for="id_Address">Address:</label></th><td><textarea name="Address" cols="40" rows="10" id="id_Address">
-</textarea></td></tr>
-<tr><th><label for="id_Email">Email:</label></th><td><input type="email" name="Email" maxlength="254" id="id_Email"></td></tr>
-<tr><th><label for="id_phone_number">Phone number:</label></th><td><textarea name="phone_number" cols="40" rows="10" id="id_phone_number">
-</textarea></td></tr>
-<tr><th><label for="id_Bank_Name">Bank Name:</label></th><td><input type="text" name="Bank_Name" maxlength="400" id="id_Bank_Name"></td></tr>
-<tr><th><label for="id_Account_number">Account number:</label></th><td><input type="number" name="Account_number" id="id_Account_number"></td></tr>
-<tr><th><label for="id_IFSC">IFSC:</label></th><td><input type="text" name="IFSC" maxlength="400" id="id_IFSC"></td></tr>
-<tr><th><label for="id_nominee1">Nominee1:</label></th><td><input type="text" name="nominee1" maxlength="100" id="id_nominee1"></td></tr>
-<tr><th><label for="id_nominee2">Nominee2:</label></th><td><input type="text" name="nominee2" maxlength="100" id="id_nominee2"></td></tr>
-[21/Apr/2023 18:53:10] "GET /editDetails/ HTTP/1.1" 200 250
-<tr><th><label for="id_Name">Name:</label></th><td><input type="text" name="Name" maxlength="100" id="id_Name"></td></tr>
-<tr><th><label for="id_Date_of_birth">Date of birth:</label></th><td><input type="text" name="Date_of_birth" id="id_Date_of_birth"></td></tr>
-<tr><th><label for="id_gender">Gender:</label></th><td><select name="gender" required id="id_gender">       
-  <option value="" selected>---------</option>
-
-  <option value="1">male</option>
-
-  <option value="2">female</option>
-
-</select></td></tr>
-<tr><th><label for="id_Address">Address:</label></th><td><textarea name="Address" cols="40" rows="10" id="id_Address">
-</textarea></td></tr>
-<tr><th><label for="id_Email">Email:</label></th><td><input type="email" name="Email" maxlength="254" id="id_Email"></td></tr>
-<tr><th><label for="id_phone_number">Phone number:</label></th><td><textarea name="phone_number" cols="40" rows="10" id="id_phone_number">
-</textarea></td></tr>
-<tr><th><label for="id_Bank_Name">Bank Name:</label></th><td><input type="text" name="Bank_Name" maxlength="400" id="id_Bank_Name"></td></tr>
-<tr><th><label for="id_Account_number">Account number:</label></th><td><input type="number" name="Account_number" id="id_Account_number"></td></tr>
-<tr><th><label for="id_IFSC">IFSC:</label></th><td><input type="text" name="IFSC" maxlength="400" id="id_IFSC"></td></tr>
-<tr><th><label for="id_nominee1">Nominee1:</label></th><td><input type="text" name="nominee1" maxlength="100" id="id_nominee1"></td></tr>
-<tr><th><label for="id_nominee2">Nominee2:</label></th><td><input type="text" name="nominee2" maxlength="100" id="id_nominee2"></td></tr>
-
+    {{form.as_p}}
     <input type = "submit" value = "Submit">
 </form>

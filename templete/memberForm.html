@@ -1,15 +1,66 @@
 <h1>Member form page</h1>
 
-<form action = "#" method= "POST">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#host_id').change(function() {
+        var selectedUserId = $(this).val();
+        
+        $.ajax({
+            url: '/get_user_details/',
+            data: {
+                'user_id': selectedUserId
+            },
+            dataType: 'json',
+            success: function(data) {
+                $('#user-details').html(
+                    'Name: ' + data.Name + '<br>' +
+                    'Phone: ' + data.phone_number + '<br>' + 
+                    'Balance: ' + data.balance 
+                    // Add other user details here
+                );
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+
+    console.log("worked!!")
+});
+</script>
+
+
+<form action = "#" method= "POST" id="payment-form">
     {% csrf_token %}
-    <p><label for="id_S_no">S no:</label></th><td><input type="number" name="S_no" value="0" id="id_S_no"></p>
-    <p><label for="id_Name">Name:</label></th><td><input type="text" name="Name" maxlength="400" id="id_Name"></p>
-    <p><label for="id_Phone">Phone:</label></th><td><input type="number" name="Phone" value="0" id="id_Phone"></p>
-    <p><label for="id_Ac_No">Ac No:</label></th><td><input type="number" name="Ac_No" value="0" id="id_Ac_No"></p>
-    <p><label for="id_Month">Month:</label></th><td><input type = "hidden" name="Month" value={{date}} id="id_Month"></p>
+
+    <label for="host_id">Select Member:</label>
+    <select name="host_id" id="host_id">
+        <option value="" selected disabled>Select a host</option>
+        {% for user in users %}
+            <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+    </select> 
+    <div id="user-details"></div>
+    <p><label for="id_Month">Month:</label></th><td><input type = "date" name="Month" id="id_Month"></p>
+    {% comment %} <p><label for="id_Month">Month:</label></th><td><input type = "hidden" name="Month" value={{date}} id="id_Month"></p> {% endcomment %}
     <p><label for="id_Share_Money">Share Money:</label></th><td><input type="number" name="Share_Money" value="0" id="id_Share_Money"></p>
     <p><label for="id_Late_Charge">Late Charge:</label></th><td><input type="number" name="Late_Charge" value="0" id="id_Late_Charge"></p>
-    <p><label for="id_Balance">Balance:</label></th><td><input type="number" name="Balance" value="0" id="id_Balance"></p>
 
-    <input type = "submit" value = "Submit">
+    {% comment %} <input type = "submit" id = 'submit' value = "Submit/Send Message"> {% endcomment %}
+    <button type="submit" id="submit">Submit/Send Text</button>
+
+
 </form>
+
+<script>
+    $(document).ready(function() {
+        $('#submit').click(function() {
+            $('#payment-form').submit();
+            window.location.href = '{% url "msg" %}';
+            console.log("text has been sent!!!")
+            alert('Form submitted and message sent!!!!');
+        });
+    });
+</script>

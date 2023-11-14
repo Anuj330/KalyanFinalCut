@@ -1,0 +1,243 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}<title>Member</title>{% endblock title%}
+{% block content %}
+{% include 'navbar.html' %}
+
+<style>
+    * {
+        margin: 0px;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    
+    }
+    
+    
+    .heading {
+        display: flex;
+        background-color: black;
+        box-shadow: 0px 1px 2px black;
+    }
+    h1 {
+        color: coral;
+        font-weight: bold;
+        
+        background: transparent;
+        padding: 7px;
+        
+    }
+    
+    
+    .outer-wrapper {
+        margin: 10px;
+        margin-left: 70px;
+        margin-right: 20px;
+        border: 1px solid black;
+        border-radius: 4px;
+        box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.9);
+        max-width: fit-content;
+        max-height: fit-content;
+    
+        
+    }
+    .table-wrapper {
+    
+        overflow-y: scroll;
+        overflow-x: scroll;
+        height: fit-content;
+        max-height: 66.4vh;
+        
+        margin-top: 22px;
+        
+        margin: 15px;
+        padding-bottom: 20px;
+        
+    }
+    
+    
+    table {
+        
+        min-width: max-content;
+        
+        border-collapse: separate;
+        border-spacing: 0px;    
+        
+    }
+    
+    
+    
+    table th{
+        position: sticky; 
+        top: 0px;
+        
+        background-color: black;
+        color: rgb(255, 255, 255);
+        
+        text-align: center;
+        font-weight: normal;
+        font-size: 18px;
+        outline: 0.7px solid black;
+        border: 1.5px solid black;
+    
+    } 
+    
+    
+    
+    table th, table td {
+        
+        padding: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        
+    }
+    
+    table td {
+        text-align: left;
+        
+        font-size: 15px;
+        border: 1px solid rgb(177, 177, 177);
+        padding-left: 20px;
+        
+    }
+    
+
+</style>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-wrap">
+                    <table class="table">
+                      {% comment %} <thead class="thead-dark"> {% endcomment %}
+        <input type="text" id="myInput" onkeyup="searchTable()" placeholder="Search for names..">
+    <table id="myTable">
+        <thead>
+            <th>Account number</th>
+            <th>USER ID</th>
+            <th>Name</th>
+            <th>Reference</th>
+            <th>Joining Date</th>
+        </thead>
+                      
+            {% for room in rooms %}
+            <tr>
+           
+                <td>{{room.Membership_number}}</td>
+                <td>{{room.user}}</td>
+                <td><a href = '{% url "moreDetails" id=room.id %}'>{{room.Name}}</td>
+                <td>{{room.Reference}}</td>
+                <td>{{room.Date_of_joining}}</td>
+            
+            </tr>
+            {% endfor %}
+
+    </table>
+
+    
+    
+</div>
+<button onclick="ExportToExcel('xlsx')">Export table to excel</button>
+
+</div>
+</div>
+</div>
+</section>
+<script>
+function searchTable() {
+    var input, filter, found, table, tr, td, i, j;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    
+    // Start from index 1 to skip the header row (index 0)
+    for (i = 1; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td");
+        found = false; // Reset found for each row
+        
+        for (j = 0; j < td.length; j++) {
+            if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                found = true;
+                break; // No need to continue checking other cells once a match is found
+            }
+        }
+        
+        if (found) {
+            tr[i].style.display = "";
+        } else {
+            tr[i].style.display = "none";
+        }
+    }
+}
+</script>
+<script>
+    function ExportToExcel(type, fn, dl) {
+        var elt = document.getElementById('myTable');
+        var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+        return dl ?
+          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+          XLSX.writeFile(wb, fn || ('Members.' + (type || 'xlsx')));
+     }
+</script>
+
+
+<br>
+<div class="outer-wrapper">
+    {% comment %} <a href="{% url 'memberForm' %}" class="button" id="button">button</a> {% endcomment %}
+</div> 
+
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Rubik:500');
+
+.button {
+  padding: 16px 42px;
+  box-shadow: 0px 0px 12px -2px rgba(0,0,0,0.5);
+  line-height: 1.25;
+  background: #FC6E51;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  position: relative;
+  transition: background-color .6s ease;
+  overflow: hidden;
+  &:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: 50%;
+    top: var(--mouse-y);
+    left: var(--mouse-x);
+    transform-style: flat;
+    transform: translate3d(-50%,-50%,0);
+    background: rgba(white,.1);
+    border-radius: 100%;
+    transition: width .3s ease, height .3s ease;
+  }
+  &:focus,
+  &:hover {
+      background: darken(#FC6E51,7%);
+  }
+  &:active {
+    &:after {
+      width: 300px;
+      height: 300px;
+    }
+  }
+}
+</style>
+
+
+
+
+<br>
+{% include 'footer.html' %}
+
+
+{% endblock %}

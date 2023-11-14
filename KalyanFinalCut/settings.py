@@ -29,6 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_PASSWORD_VALIDATORS = []
+
 # Application definition
 
 INSTALLED_APPS = [

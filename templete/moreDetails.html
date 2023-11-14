@@ -1,0 +1,76 @@
+{% extends 'main.html' %}
+{% load static %}
+
+
+{% block content %}
+{% include 'navbar.html' %}
+<br>
+
+<div class="highlighted-cause">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-7 order-2 order-lg-1">
+                <div class="section-heading">
+       
+                    <h2 class="entry-title">Full Details: </h2>
+                </div><!-- .section-heading -->
+
+                <div class="entry-content">
+                    <br>
+    
+                    <p> <b>Name:</b> {{room_messages.Name}} </p>
+                    <p> <b>Username:</b> {{room_messages.user}}</p>
+                    <p> <b>Date of Birth: </b> {{room_messages.Date_of_birth}}</p>
+                    {% for choice_value, choice_label in r.GENDER_TYPE_CHOICE %}
+                        {% if choice_value == room.gender %}
+                            <p><b>Gender:</b>{{ choice_label }}</p>
+                        {% endif %}
+                    {% endfor %}
+                    {% comment %} <p> <b>Gender: </b> {{room_messages.}}</p> {% endcomment %}
+                    <p> <b>Membership Number:</b> {{room_messages.Membership_number}} </p>    
+                    <p>{{room_messages.Date_of_joining}}</p>
+                    <p>{{room_messages.Address}}</p>
+                    <p>{{room_messages.Email}}</p>
+                    <p>{{room_messages.phone_number}}</p>
+                    <p>{{room_messages.Aadhar}}</p>
+                    <p>{{room_messages.Pan}}</p>
+                    <p>{{room_messages.Bank_Name}}</p>
+                    <p>{{room_messages.Account_number}}</p>
+                    <p>{{room_messages.IFSC}}</p>
+                    <p>{{room_messages.Reference}}</p>
+                    <p>{{room_messages.nominee1}}</p>
+                    <p>{{room_messages.Date_of_birth_nominee1}}</p>
+                    <p>{{room_messages.relation_with_nominee1}}</p>
+                    <p>{{room_messages.nominee2}}</p>
+                    <p>{{room_messages.Date_of_birth_nominee2}}</p>
+                    <p>{{room_messages.relation_with_nominee2}} </p>
+
+
+                </div>
+    </div><!-- .container -->
+</div><!-- .highlighted-cause --> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{room_messages.Date_of_birth_nominee1}}
+
+
+
+
+
+
+
+
+{% endblock content %}
