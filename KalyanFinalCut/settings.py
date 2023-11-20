@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_truncate',
     'KalyanFinalCutApp',
-    'import_export'
-]
+    "django.conf",
+    'import_export',]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -127,6 +127,8 @@ STATICFILES_DIRS = [
 ]
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField' 
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "KalyanFinalCut.settings") 
+
 
 try:
     from KalyanFinalCut.local_settings import *
