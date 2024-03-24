@@ -99,76 +99,76 @@ def months_between_dates(start_date, end_date):
         year = current_date.year + (current_date.month // 12)
         month = current_date.month % 12 + 1
         current_date = current_date.replace(year, month, 1)
-
-##############################################
-
-
-#   all logic is below 
-
-##############################################
-
+#
+# ##############################################
+#
+#
+# #   all logic is below
+#
+# ##############################################
+#
 import os
 import django
 from django.conf import settings
-# from .models import User, Payment
+from .models import User, Payment
 
 # Set the DJANGO_SETTINGS_MODULE environment variable
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "KalyanFinalCut.settings")  
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "KalyanFinalCut.settings")
 
 import os
 from datetime import datetime
 from django.core.wsgi import get_wsgi_application
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'KalyanFinalCut.settings'
-# application = get_wsgi_application()
+application = get_wsgi_application()
 
 if not django.apps.apps.ready:
     django.setup()
 
-def pay_monthly():
-    print("Function is running...")
-    users = User.objects.all()
-
-    if users.exists():
-        for user in users:
-            user_details = user.userdetails_set.all()
-
-            if user_details.exists():
-                # print("User exists:", user)
-                # Create payment entries for different months
-                for i in range(1, 2):
-                    month = f'2022-04-01'
-                    # print(f"Creating payment entry for {user} in {month}")
-                    # Loop through user_details queryset
-                    start = datetime(2022, 4, 30)  # Start date
-                    end = datetime(2023, 12, 31)  # End date
-
-                    for month in months_between_dates(start, end):
-                        print(month)
-                        for detail in user_details:
-                            join_date = str(detail.Date_of_joining)
-                            if str(month) > join_date:
-                                Payment.objects.create(
-                                    host=user,
-                                    Month=month,
-                                    Name=detail.Name,
-                                    # Add other fields as needed
-                                    Ac_No = detail.Membership_number
-                                )
-                                print(f"payment month {month} {user} and joining date {join_date}")
-                            else:
-                                (f"User details do not exist for before {month}:", user)
-
-            else:
-                print("User details do not exist for:", user)
-    else:
-        print("No users exist.")
-
-# Call the function
-pay_monthly()
-
-##############################################
-
+# def pay_monthly():
+#     print("Function is running...")
+#     users = User.objects.all()
+#
+#     if users.exists():
+#         for user in users:
+#             user_details = user.userdetails_set.all()
+#
+#             if user_details.exists():
+#                 # print("User exists:", user)
+#                 # Create payment entries for different months
+#                 for i in range(1, 2):
+#                     month = f'2022-04-01'
+#                     # print(f"Creating payment entry for {user} in {month}")
+#                     # Loop through user_details queryset
+#                     start = datetime(2022, 4, 30)  # Start date
+#                     end = datetime(2023, 12, 31)  # End date
+#
+#                     for month in months_between_dates(start, end):
+#                         print(month)
+#                         for detail in user_details:
+#                             join_date = str(detail.Date_of_joining)
+#                             if str(month) > join_date:
+#                                 Payment.objects.create(
+#                                     host=user,
+#                                     Month=month,
+#                                     Name=detail.Name,
+#                                     # Add other fields as needed
+#                                     Ac_No = detail.Membership_number
+#                                 )
+#                                 print(f"payment month {month} {user} and joining date {join_date}")
+#                             else:
+#                                 (f"User details do not exist for before {month}:", user)
+#
+#             else:
+#                 print("User details do not exist for:", user)
+#     else:
+#         print("No users exist.")
+#
+# # Call the function
+# pay_monthly()
+# # #
+# # # ##############################################
+# # #
 # records = Payment.objects.all()
-# records.delete() 
-
+# records.delete()
+#

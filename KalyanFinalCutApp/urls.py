@@ -21,7 +21,7 @@ urlpatterns = [
     path('adminPage/', views.adminPage, name = "adminPage"),  #can be used for style with table
     # path("handlerequest/", views.handlerequest, name="handleRequest"),
     path('get_user_details/', views.get_user_details, name='get_user_details'),
-    path('#/', views.sendMessage, name = "msg"),
+    # path('#/', views.sendMessage, name = "msg"),
     path("pay/", views.pay, name="pay"),
     path("table/", views.refer, name="table"),
 

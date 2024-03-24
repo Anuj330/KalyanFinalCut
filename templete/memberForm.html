@@ -44,11 +44,14 @@ $(document).ready(function() {
     </select> 
     <div id="user-details"></div>
     <p><label for="id_Month">Month:</label></th><td><input type = "date" name="Month" id="id_Month"></p>
-    {% comment %} <p><label for="id_Month">Month:</label></th><td><input type = "hidden" name="Month" value={{date}} id="id_Month"></p> {% endcomment %}
+    <p>For Multiple Entries</p>
+    <p><label for="id_Start_date">Start Date:</label></th><td><input type = "date" name="Start_date" id="id_Start_date"></p>
+    <p><label for="id_Finish_date">Finish Date:</label></th><td><input type = "date" name="Finish_date" id="id_Finish_date"></p>
+    <p>default date will be 15 of every month in case of range </p>
     <p><label for="id_Share_Money">Share Money:</label></th><td><input type="number" name="Share_Money" value="0" id="id_Share_Money"></p>
     <p><label for="id_Late_Charge">Late Charge:</label></th><td><input type="number" name="Late_Charge" value="0" id="id_Late_Charge"></p>
 
-    {% comment %} <input type = "submit" id = 'submit' value = "Submit/Send Message"> {% endcomment %}
+<!--    {% comment %} <input type = "submit" id = 'submit' value = "Submit/Send Message"> {% endcomment %}-->
     <button type="submit" id="submit">Submit/Send Text</button>
 
 
@@ -58,9 +61,9 @@ $(document).ready(function() {
     $(document).ready(function() {
         $('#submit').click(function() {
             $('#payment-form').submit();
-            window.location.href = '{% url "msg" %}';
             console.log("text has been sent!!!")
             alert('Form submitted and message sent!!!!');
         });
     });
 </script>
+

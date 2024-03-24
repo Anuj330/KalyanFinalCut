@@ -1,3 +1,4 @@
+from dateutil.relativedelta import relativedelta
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -11,8 +12,7 @@ from .forms import PaymentdetailsForm, userdettailsForm
 from django.http import HttpResponse, JsonResponse
 import random
 from django.views.decorators.csrf import csrf_exempt
-from paytm import Checksum
-from twilio.rest import Client
+# from paytm import Checksum
 from . import keys
 
 # Create your views here.
@@ -91,63 +91,94 @@ def MemberPage(request):
         print(membership_no)
     context = {"user" : user , "rooms" : rooms, 'room_messages' : room_messages}
     return render(request,'memberPage.html' , context)
-
+#
+import datetime
+#
 def MemberForm(request):
     global balance
     balance = 0
-    form  = PaymentdetailsForm(request.POST or None)
+    form = PaymentdetailsForm(request.POST or None)
 
-    date = datetime.now()
+    date = datetime.datetime.now()
     print(date)
     print(request.user)
-    
+    import ipdb;ipdb.set_trace()
     users = User.objects.all()
     if request.method == "POST":
         host_id = request.POST['host_id']
         try:
             host = User.objects.get(id=host_id)  # Fetch the selected host user
-            
+
         except User.DoesNotExist:
             return redirect('invalid_host')
-        Month = request.POST.get('Month', '') 
+        Month = request.POST.get('Month','')
+        Start_date = datetime.datetime.strptime(request.POST.get('Start_date', '1111-11-11'), '%Y-%m-%d')
+        Finish_date = datetime.datetime.strptime(request.POST.get('Finish_date', '1111-11-11'), '%Y-%m-%d')
         Share_Money = request.POST.get('Share_Money', '')
         Late_Charge = request.POST.get('Late_Charge', '')
         rooms = host.payment_set.all()
+        current_date = Start_date
+        if Start_date != '1111-11-11':
+            while current_date <= Finish_date:
+                # Move to the next month
+                current_date = current_date.replace(day=15)  # Set the day to 15
+                if current_date <= Finish_date:  # Ensure we haven't exceeded the finish date
+                    print("Inside the loop")
+                    balance = 0  # Reset balance for each payment cycle
+                    for i in rooms:
+                        balance += i.Share_Money
 
-        for i in rooms: 
-            balance += i.Share_Money 
-        Balance = balance
-        Payments = Payment.objects.create(host = host, Month = Month, Share_Money=Share_Money, Late_Charge=Late_Charge, Balance=Balance)
-        payment_id = Payments.id 
-        if payment_id == None:  
-            random_id = random.randint(1, 10000000000000)
-            payment_id = random_id
-        print(payment_id)
-        Payments.save()
-        Late_Charge_balance = 0
-        for i in rooms:
-            Late_Charge_balance += i.Late_Charge
-        print(f'late charge is {Late_Charge_balance}')
+                    Balance = balance
+                    Payments = Payment.objects.create(host=host, Month=current_date, Share_Money=Share_Money,
+                                                      Late_Charge=Late_Charge, Balance=Balance)
+                    payment_id = Payments.id
+                    if payment_id is None:
+                        random_id = random.randint(1, 10000000000000)
+                        payment_id = random_id
+                    print(payment_id)
+                    Payments.save()
+                    Late_Charge_balance = 0
+                    for i in rooms:
+                        Late_Charge_balance += i.Late_Charge
+                    print(f'late charge is {Late_Charge_balance}')
 
-
+                # Move to the next month after processing
+                current_date += relativedelta(months=1)
+        else:
+            for i in rooms:
+                balance += i.Share_Money
+            Balance = balance
+            Payments = Payment.objects.create(host = host, Month = Month, Share_Money=Share_Money, Late_Charge=Late_Charge, Balance=Balance)
+            payment_id = Payments.id
+            if payment_id == None:
+                random_id = random.randint(1, 10000000000000)
+                payment_id = random_id
+            print(payment_id)
+            Payments.save()
+            Late_Charge_balance = 0
+            for i in rooms:
+                Late_Charge_balance += i.Late_Charge
+            print(f'late charge is {Late_Charge_balance}')
 
     context = {'users' : users, 'form': form, 'date': date}
     return render(request, "memberForm.html", context)
 
-
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 def get_user_details(request):
-    if request.is_ajax() and request.method == 'GET':
+    import ipdb;ipdb.set_trace()
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'GET':
         user_id = request.GET.get('user_id')
         user_details = get_object_or_404(userdetails, user_id=user_id)
-        
+
         data = {
             'Name': user_details.Name,
             'phone_number': user_details.phone_number,
-            'balance' : balance,
+            # 'balance': user_details.balance,
             # Add more fields here
         }
-        
+
         return JsonResponse(data)
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
@@ -216,6 +247,7 @@ def location(request):
 
 
 def pay(request):
+    print("helllo")
     return render(request, 'payment.html') 
 
 def refer(request):
@@ -223,14 +255,14 @@ def refer(request):
     context = {'rooms' : rooms}
     return render(request, 'table.html', context)
 
-def sendMessage(request):
-    # pass
-    client = Client(keys.Acoount_SID, keys.Auth_key)
-
-    message = client.messages.create(
-        from_= keys.twilio_nunmber,
-        to=keys.my_phone_number,
-        body="Dear Member, your latest txn corresponding this account 3,004,887,558 is Txn:200.0,fine:0.0,bal:1400.0 .TEAM LAXMI"
-        )
-
-    print(message.body)
+# def sendMessage(request):
+#     # pass
+#     client = Client(keys.Acoount_SID, keys.Auth_key)
+#
+#     message = client.messages.create(
+#         from_= keys.twilio_nunmber,
+#         to=keys.my_phone_number,
+#         body="Dear Member, your latest txn corresponding this account 3,004,887,558 is Txn:200.0,fine:0.0,bal:1400.0 .TEAM LAXMI"
+#         )
+#
+#     print(message.body)
