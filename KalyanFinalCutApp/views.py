@@ -94,15 +94,16 @@ def MemberPage(request):
 #
 import datetime
 #
+
+global balance
+
 def MemberForm(request):
-    global balance
     balance = 0
     form = PaymentdetailsForm(request.POST or None)
 
     date = datetime.datetime.now()
     print(date)
     print(request.user)
-    import ipdb;ipdb.set_trace()
     users = User.objects.all()
     if request.method == "POST":
         host_id = request.POST['host_id']
@@ -112,22 +113,26 @@ def MemberForm(request):
         except User.DoesNotExist:
             return redirect('invalid_host')
         Month = request.POST.get('Month','')
-        Start_date = datetime.datetime.strptime(request.POST.get('Start_date', '1111-11-11'), '%Y-%m-%d')
-        Finish_date = datetime.datetime.strptime(request.POST.get('Finish_date', '1111-11-11'), '%Y-%m-%d')
+        # Start_date = datetime.datetime.strptime(request.POST.get('Start_date', '1111-11-11'), '%Y-%m-%d')
+        Start_date = request.POST.get('Start_date','1111-11-11')
+        # Finish_date = datetime.datetime.strptime(request.POST.get('Finish_date', '1111-11-11'), '%Y-%m-%d')
+        Finish_date = request.POST.get('Finish_date','1111-11-11')
         Share_Money = request.POST.get('Share_Money', '')
         Late_Charge = request.POST.get('Late_Charge', '')
         rooms = host.payment_set.all()
         current_date = Start_date
-        if Start_date != '1111-11-11':
+        if Start_date not in ['1111-11-11', '']:
+            Start_date = datetime.datetime.strptime(Start_date, '%Y-%m-%d')
+            current_date = Start_date
+            Finish_date = datetime.datetime.strptime(Finish_date, '%Y-%m-%d')
+            for i in rooms:
+                balance += i.Share_Money
             while current_date <= Finish_date:
                 # Move to the next month
-                current_date = current_date.replace(day=15)  # Set the day to 15
+                current_date = current_date.replace(day=15)
                 if current_date <= Finish_date:  # Ensure we haven't exceeded the finish date
                     print("Inside the loop")
-                    balance = 0  # Reset balance for each payment cycle
-                    for i in rooms:
-                        balance += i.Share_Money
-
+                    balance += int(Share_Money)
                     Balance = balance
                     Payments = Payment.objects.create(host=host, Month=current_date, Share_Money=Share_Money,
                                                       Late_Charge=Late_Charge, Balance=Balance)
@@ -144,11 +149,13 @@ def MemberForm(request):
 
                 # Move to the next month after processing
                 current_date += relativedelta(months=1)
+
         else:
             for i in rooms:
                 balance += i.Share_Money
             Balance = balance
-            Payments = Payment.objects.create(host = host, Month = Month, Share_Money=Share_Money, Late_Charge=Late_Charge, Balance=Balance)
+            Payments = Payment.objects.create(host=host, Month=Month, Share_Money=Share_Money, Late_Charge=Late_Charge,
+                                              Balance=Balance)
             payment_id = Payments.id
             if payment_id == None:
                 random_id = random.randint(1, 10000000000000)
@@ -167,7 +174,6 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 def get_user_details(request):
-    import ipdb;ipdb.set_trace()
     if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'GET':
         user_id = request.GET.get('user_id')
         user_details = get_object_or_404(userdetails, user_id=user_id)
